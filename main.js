@@ -1,13 +1,17 @@
-// import {html2canvas} from "html2canvas"
-// const html2canvas = require('html2canvas');
 
+/*
+Some constants for keeping note on the fretboard
+*/
 const fifthfret = "720px"
 const estring = "-95px"
 const fretwidth = 124
 const stringspace = 95
 const ordinals = ['open', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth', 'twentieth', 'twentyFirst', 'twentySecond', 'twentyThird', 'twentyFourth']
 
-
+/*
+The class for Note Buttons. Each note button knows which note it is, and which fret and string it belongs to.
+The constructors adds the event listeners for clicks and mouseovers.
+*/
 class NoteButton{
     constructor(note, fret, string){
 
@@ -35,16 +39,14 @@ class NoteButton{
         this.elem.addEventListener("click", (e) => noteClick(this, e) );
         this.elem.addEventListener("mouseover", () => noteHover(this)  );
         this.elem.addEventListener("mouseout", () => endHover(this) );
-
-        // if (this.accidental){
-        //     this.elem.addEventListener("dblclick", () => enharmonicEquivalent(this))
-        // }
         
     }
 
 }
 
-
+/*
+Constants arrays for the notes on each string
+*/
 const lowEStringNotes = ['e0E', 'f1E', 'fs1E', 'g1E', 'gs1E', 'a1E', 'as1E', 'b1E', 'c1E', 'cs1E', 'd1E', 'ds1E', 'e1E', 'f2E', 'fs2E', 'g2E', 'gs2E', 'a2E', 'as2E', 'b2E', 'c2E', 'cs2E', 'd2E', 'ds2E', 'e2E']
 var lowEStringNoteObjects = []
 
@@ -110,6 +112,7 @@ const locrian = [1, 2, 2, 1, 2, 2, 2]
 const chromaticSharpsArray = ['a', 'as', 'b', 'c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs']
 const chromaticFlatsArray =  ['a', 'bb', 'b', 'c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab']
 
+// Chromatic positions of notes with sharps beginning at a = 0
 var chromaticSharpsDict = {
     'a' : 0,
     'as' : 1,
@@ -125,6 +128,7 @@ var chromaticSharpsDict = {
     'gs' : 11
 }
 
+// Chromatic positions of notes with flats beginning at a = 0
 var chromaticFlatsDict = {
     'a' : 0,
     'bb' : 1,
@@ -140,6 +144,7 @@ var chromaticFlatsDict = {
     'ab' : 11
 }
 
+// Enharmonic equivalents for sharps and flats to be swapped out
 var enharmonicEquivalents = {
     "as" : "bb",
     "bs" : "c",
@@ -159,6 +164,7 @@ var enharmonicEquivalents = {
 
 }
 
+// Standard accidentals for major keys
 var scaleAccidentals = {
     'c' : 'sharp',
     'g' : 'sharp',
@@ -176,6 +182,7 @@ var scaleAccidentals = {
     'gb' : 'flat'
 }
 
+// A dictoinary for accessing scale formulas with strings
 var scaleFormulas = {
     "'majorScale'" : majorScale,
     "'minorScale'" : minorScale,
@@ -193,6 +200,7 @@ var scaleFormulas = {
     "'locrian'" : locrian
 }
 
+// Reformating dictionary for displaying scale names at top of page
 var scaleNames = {
     "'majorScale'" : 'Major Scale',
     "'minorScale'" : 'Minor Scale',
@@ -209,6 +217,7 @@ var scaleNames = {
     "'locrian'" : 'Locrian Scale'
 }
 
+// A dictionary of mode positions relative to their home key. 0 based indexing.
 var modePosition = {
     "'majorScale'" : 0,
     "'majorPent'" : 0,
@@ -223,6 +232,7 @@ var modePosition = {
     "'locrian'" : 6
 }
 
+// Mode offset values representing how many semitones down it take to reach the home key.
 var modeOffset = {
     "'majorScale'" : 0,
     "'majorTriad'" : 0,
@@ -239,8 +249,10 @@ var modeOffset = {
     "'locrian'" : -11
 }
 
+// an array of the checkboxes for string inclusions/exclusions
 var stringCheckboxes = [document.getElementById("includeLowEString"), document.getElementById("includeAString"), document.getElementById("includeDString"), document.getElementById("includeGString"), document.getElementById("includeBString"), document.getElementById("includeHighEString")]
 
+// Note Click function that handles what happens when a noteButton is clicked. Handles shift-clicks.
 function noteClick(note, e) {
 
     if (note.visible == true){
@@ -272,16 +284,11 @@ function noteClick(note, e) {
         note.elem.style.opacity = 1.0;
         note.visible = true;
 
-        // note.elem.style.border = 'solid'
-        // note.elem.style.borderRadius = '50%';
-        // note.elem.style.borderColor = '#ff0000'
-        // console.log(note.elem)
-
     }
 
 }
 
-
+// Funtion to handle when a noteButton is hovered over
 function noteHover(note) {
 
     if (note.visible == false){
@@ -289,7 +296,7 @@ function noteHover(note) {
     }
 }
 
-
+// Function to handle when a noteButton is no longer hovered over
 function endHover(note) {
     
     if (note.visible == false){
@@ -297,7 +304,7 @@ function endHover(note) {
     }
 }
 
-
+// Handles swapped of enharmonic equivalents. Changes location of source image as well as noteButton's internal tracking of its own note.
 function enharmonicEquivalent(note){
 
     // change sharp to flat
@@ -343,6 +350,7 @@ function enharmonicEquivalent(note){
     }
 }
 
+// Called when a noteButton is shift-clicked. Swaps colour of note image from red to blue or vice versa.
 function noteColour(note){
 
     if (note.blue) {
@@ -358,7 +366,7 @@ function noteColour(note){
     }
 }
 
-
+// Clears all notes from being displayed on fretboard. Also clears scale title.
 function clearNotes(){
 
     // console.log('clear notes')
@@ -376,6 +384,7 @@ function clearNotes(){
 
 }
 
+// Resets the string checkboxes when the 'Clear all notes' button is clicked.
 function resetStringCheckboxes(){
 
     for (let k = 0; k < 6; k++){
@@ -386,6 +395,8 @@ function resetStringCheckboxes(){
 }
 
 
+// Displays a scale's notes on the fretboard according to fret and string inclusions. Takes the scale's notes as an array and a scale name for displaying
+// above the fretboard.
 function showScale(scaleNotes, scaleName){
     // console.log(scaleNotes)
     // console.log(scaleName)
@@ -434,6 +445,7 @@ function showScale(scaleNotes, scaleName){
     }
 }
 
+// Shows a triad on the fretboard. Possible no longer in use.
 function showTriad(scaleNotes, triadName){
 
     clearNotes()
@@ -459,6 +471,7 @@ function showTriad(scaleNotes, triadName){
     }
 }
 
+// Constructs the array of scale notes based on the scale's interval formula, it's root note, and the accidentals used in the key.
 function buildScaleFromIntervals(scaleFormula, rootNote, accidental){
     // console.log(scaleFormula)
     // console.log(rootNote)
@@ -488,6 +501,10 @@ function buildScaleFromIntervals(scaleFormula, rootNote, accidental){
     return scale
 }
 
+/*
+Builds a scale from the scale's name, rootnote, and accidental
+This should be achievable without an accidental parameter. 
+*/
 function buildScaleFromType(scaleType, rootNote, accidental){
     // console.log(scaleType)
     // console.log(rootNote)
@@ -495,23 +512,23 @@ function buildScaleFromType(scaleType, rootNote, accidental){
 
 
     const scaleFormula = scaleFormulas[scaleType];
-    console.log(scaleFormula)
+    // console.log(scaleFormula)
 
-    const homeKeyPosition = findHomeKey(scaleType, rootNote);
-    console.log(homeKeyPosition)
+    const homeKeyPosition = findHomeKey(scaleType, rootNote); // position of the homekey in the chromaticFlatsArray
+    // console.log(homeKeyPosition)
 
-    homeKeyRoot = String.fromCharCode( 104 - (7 - (rootNote.charCodeAt(0) - (modePosition[scaleType] + 97))) % 7 )
-    console.log(homeKeyRoot);
+    const homeKeyRoot = chromaticFlatsArray[homeKeyPosition] // the root note of the home key of the given scale/mode
 
+    // console.log(homeKeyRoot);
 
     homeKey = chromaticFlatsArray[homeKeyPosition]
-    console.log(homeKey);
+    // console.log(homeKey);
 
     if (homeKeyRoot[0] != homeKey[0]){
         homeKey = enharmonicEquivalents[homeKey]
     }
 
-    console.log(homeKey)
+    // console.log(homeKey)
 
     accidental = scaleAccidentals[homeKey]
 
@@ -539,6 +556,9 @@ function buildScaleFromType(scaleType, rootNote, accidental){
     return scale
 }
 
+/*
+Find the position of the home key in the chromaticFlatsArray, relative to the given scalename. ie D lydian returns 0, as A is at position 0 of chromaticFlatsArray.
+*/
 function findHomeKey(scaleName, rootNote){
 
     // console.log(scaleName)
@@ -560,8 +580,8 @@ function findHomeKey(scaleName, rootNote){
 
 }
 
-// console.log(buildScaleFromIntervals([4,3], 'db', 'flat'))
 
+// Generates the noteButton objects on load of DOM. 
 function generateNotes() {
 
     for (let i = 0; i < 25; i++) {
@@ -682,6 +702,7 @@ function generateNotes() {
     }
 }
 
+// Download the canvas image.
 function downloadURI(uri, name) {
     var link = document.createElement("a");
 
@@ -693,6 +714,7 @@ function downloadURI(uri, name) {
     //clearDynamicLink(link); 
 }
 
+// Creates a canvas to download
 function downloadImage(div){
     hashDiv = '#' + div
     document.getElementById('scaleName').innerText == '' ? filename = 'GuitarFretboard.png' : filename = document.getElementById('scaleName').innerText + '.png'
@@ -702,6 +724,7 @@ function downloadImage(div){
     });
 }
 
+// Updates the scale title information. 
 function updateScaleName(scaleNameInput) {
     document.getElementById('scaleName').innerText = scaleNameInput
 }
