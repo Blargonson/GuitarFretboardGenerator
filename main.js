@@ -561,7 +561,8 @@ Find the position of the home key in the chromaticFlatsArray, relative to the gi
 */
 function findHomeKey(scaleName, rootNote){
 
-    // console.log(scaleName)
+    console.log(scaleName)
+    console.log(rootNote)
     offset = modeOffset[scaleName]
     // console.log(offset)
 
