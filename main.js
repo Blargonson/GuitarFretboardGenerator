@@ -173,13 +173,21 @@ var scaleAccidentals = {
     'e' : 'sharp',
     'b' : 'sharp',
     'fs' : 'sharp',
+    'cs' : 'sharp',
+    'gs' : 'sharp',
+    'ds' : 'sharp',
+    'as' : 'sharp',
+    'es' : 'sharp',
+
 
     'f' : 'flat',
     'bb' : 'flat',
     'eb' : 'flat',
     'ab' : 'flat',
     'db' : 'flat',
-    'gb' : 'flat'
+    'gb' : 'flat',
+    'cb' : 'flat',
+    'fb' : 'flat'
 }
 
 // A dictoinary for accessing scale formulas with strings
@@ -401,7 +409,17 @@ function showScale(scaleNotes, scaleName){
     // console.log(scaleNotes)
     // console.log(scaleName)
     clearNotes()    
+
+    if (scaleName[1] == 'S'){
+        scaleName = scaleName[0] + '#' + scaleName.slice(2)
+    } else if (scaleName[1] == 'B') {
+        scaleName = scaleName[0] + 'b' + scaleName.slice(2)
+    }
+
     document.getElementById('scaleName').innerText = scaleName;
+
+
+
     var lowerFretRange = document.getElementById("fretRangeLower").value;
     var upperFretRange = document.getElementById("fretRangeUpper").value;
     var limitGstring = document.getElementById("limitGString");
@@ -503,21 +521,24 @@ function buildScaleFromIntervals(scaleFormula, rootNote, accidental){
 
 /*
 Builds a scale from the scale's name, rootnote, and accidental
-This should be achievable without an accidental parameter. 
 */
 function buildScaleFromType(scaleType, rootNote, accidental){
     // console.log(scaleType)
     // console.log(rootNote)
-    // console.log(accidental)
+    var chromaticScale = chromaticFlatsArray
+
+    if (rootNote.length > 1 && rootNote[1] == 's'){
+        chromaticScale = chromaticSharpsArray
+    }
 
 
     const scaleFormula = scaleFormulas[scaleType];
-    // console.log(scaleFormula)
+    // console.log(accidental)
 
-    const homeKeyPosition = findHomeKey(scaleType, rootNote); // position of the homekey in the chromaticFlatsArray
+    const homeKeyPosition = findHomeKey(scaleType, rootNote, accidental); // position of the homekey in the chromaticFlatsArray
     // console.log(homeKeyPosition)
 
-    const homeKeyRoot = chromaticFlatsArray[homeKeyPosition] // the root note of the home key of the given scale/mode
+    const homeKeyRoot = chromaticScale[homeKeyPosition] // the root note of the home key of the given scale/mode
 
     // console.log(homeKeyRoot);
 
@@ -533,25 +554,26 @@ function buildScaleFromType(scaleType, rootNote, accidental){
     accidental = scaleAccidentals[homeKey]
 
     if (accidental == 'sharp'){
-        chromaticScale = chromaticSharpsArray
+        // chromaticScale = chromaticSharpsArray
         var chromaticIndex = chromaticSharpsDict[rootNote]
     } else {
-        chromaticScale = chromaticFlatsArray 
+        // chromaticScale = chromaticFlatsArray 
         var chromaticIndex = chromaticFlatsDict[rootNote]
     }
 
     scale = [rootNote]
     count = 0
+    // console.log(chromaticIndex)
 
     
     for (let i = 0; i < scaleFormula.length; i++){
 
-        // console.log(chromaticIndex)
         chromaticIndex = (chromaticIndex + scaleFormula[i]) % 12;
-
         scale.push(chromaticScale[chromaticIndex]);
         
     }
+
+    // console.log(scale)
 
     return scale
 }
@@ -559,23 +581,22 @@ function buildScaleFromType(scaleType, rootNote, accidental){
 /*
 Find the position of the home key in the chromaticFlatsArray, relative to the given scalename. ie D lydian returns 0, as A is at position 0 of chromaticFlatsArray.
 */
-function findHomeKey(scaleName, rootNote){
+function findHomeKey(scaleName, rootNote, accidental){
 
-    console.log(scaleName)
-    console.log(rootNote)
+    // console.log(scaleName)
+    // console.log(rootNote)
     offset = modeOffset[scaleName]
     // console.log(offset)
 
-    chromaticPosition = chromaticSharpsDict[rootNote]
+    var chromaticScale = accidental == 'sharp' ? chromaticSharpsDict : chromaticFlatsDict
+
+    chromaticPosition = chromaticScale[rootNote]
     homeKeyChromaticPosition = chromaticPosition + offset
 
     if (homeKeyChromaticPosition < 0){
         homeKeyChromaticPosition = 12 + homeKeyChromaticPosition
     }
-
-    if (rootNote.length > 1){
-        homeKey = homeKey + rootNote[1];
-    }
+    // console.log(homeKeyChromaticPosition)
 
     return homeKeyChromaticPosition
 
