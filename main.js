@@ -187,7 +187,7 @@ var scaleAccidentals = {
     'db' : 'flat',
     'gb' : 'flat',
     'cb' : 'flat',
-    'fb' : 'flat'
+    'fb' : 'flat',
 }
 
 // A dictoinary for accessing scale formulas with strings
