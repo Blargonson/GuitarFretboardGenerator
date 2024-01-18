@@ -299,9 +299,10 @@ html{
 .clearbtn {
     background-color: #810000;
     color: white;
-    padding: 16px;
+    padding: 10%;
     font-size: 16px;
     border: none;
+    float: left;
 }
 
 .clearbtn:hover {
@@ -312,7 +313,7 @@ html{
 .downloadbtn {
     background-color: #3887bb;
     color: white;
-    padding: 16px;
+    padding: 10%;
     font-size: 16px;
     border: none;
     float: right
@@ -323,11 +324,25 @@ html{
 }
 
 .scaleBuilder {
-    margin-left: auto;
-    margin-right: auto;
-    width: 44.6%;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
     background-color: rgb(248, 230, 202);
     color: black;
+    display:block;
+}
+
+.table, td, th {
+    border-color: red;
+    /* border: 1px solid; */
+    width: fit-content;
+}
+
+.scaleBuildertText {
+    /* display: inline-block; */
+    /* text-align: center; */
+    /* width: auto; */
+    position:absolute;
 }
 
 .stringAndFretInclusions{
@@ -381,7 +396,7 @@ html{
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   /* The container <div> - needed to position the dropdown content */
   .dropdown {
     position: relative;

@@ -35,63 +35,86 @@
 
         <!-- <div style="padding-top: 3%"></div> -->
         <div class="scaleBuilder">
-            <!-- Clear all notes -->
-            <button class = "clearbtn"  onClick = "clearNotes(); resetStringCheckboxes()"> Clear all notes </button> 
+            <table>
+                <tr>
+                    <th style="width:15%">
+                        <button class = "clearbtn"  onClick = "clearNotes(); resetStringCheckboxes()"> Clear all notes </button>
+                    </th>
 
-            <!-- Scale Builder -->
-            <label style="padding-left: 8%;" for="rootNote">Root Note:</label>
-            <select name="rootNote" id="rootNote">
-                <option value="c">C</option>
-                <option value="cs">C#</option>
-                <option value="db">Db</option>
-                <option value="d">D</option>
-                <option value="ds">D#</option>
-                <option value="eb">Eb</option>
-                <option value="e">E</option>
-                <option value="f">F</option>
-                <option value="fs">F#</option>
-                <option value="gb">Gb</option>
-                <option value="g">G</option>
-                <option value="gs">G#</option>
-                <option value="ab">Ab</option>
-                <option value="a">A</option>
-                <option value="as">A#</option>
-                <option value="bb">Bb</option>
-                <option value="b">B</option>
-            </select>
+            <!-- Clear all notes button -->
 
-            <label style="padding-left: 1%;" for="scaleType">Scale Type:</label>
-            <select  name="scaleType" id="scaleType">
-                <option value="'majorScale'">Major</option>
-                <option value="'minorScale'">Minor</option>
-                <option value="'majorPent'">Major Pentatonic</option>
-                <option value="'minorPent'">Minor Pentatonic</option>
-                <option value="'majorTriad'">Major Triad</option>
-                <option value="'minorTriad'">Minor Triad</option>
-                <option value="'ionian'">Ionian</option>
-                <option value="'dorian'">Dorian</option>
-                <option value="'phrygian'">Phrygian</option>
-                <option value="'lydian'">Lydian</option>
-                <option value="'mixolydian'">Mixolydian</option>
-                <option value="'aeolian'">Aeolian</option>
-                <option value="'locrian'">Locrian</option>
-            </select>
             
-            <button type="button" onclick="showScale(
-                buildScaleFromType(
-                    document.getElementById('scaleType').value, document.getElementById('rootNote').value, scaleAccidentals[document.getElementById('rootNote').value]), 
-                    document.getElementById('rootNote').value.toUpperCase() + ' ' + scaleNames[document.getElementById('scaleType').value])">
-                    Show Scale
-                </button>
+            <!-- <div class="scaleBuilderText"> -->
+                    <th style="width: fit-content;">
+                        <!-- Scale Builder -->
+                        <label style="padding-left: 8%;" for="rootNote">Root Note:</label>
+                        <select name="rootNote" id="rootNote">
+                            <option value="c">C</option>
+                            <option value="cs">C#</option>
+                            <option value="db">Db</option>
+                            <option value="d">D</option>
+                            <option value="ds">D#</option>
+                            <option value="eb">Eb</option>
+                            <option value="e">E</option>
+                            <option value="f">F</option>
+                            <option value="fs">F#</option>
+                            <option value="gb">Gb</option>
+                            <option value="g">G</option>
+                            <option value="gs">G#</option>
+                            <option value="ab">Ab</option>
+                            <option value="a">A</option>
+                            <option value="as">A#</option>
+                            <option value="bb">Bb</option>
+                            <option value="b">B</option>
+                        </select>
+
+                        <label style="padding-left: 1%;" for="scaleType">Scale Type:</label>
+                        <select  name="scaleType" id="scaleType">
+                            <option value="'majorScale'">Major</option>
+                            <option value="'minorScale'">Minor</option>
+                            <option value="'majorPent'">Major Pentatonic</option>
+                            <option value="'minorPent'">Minor Pentatonic</option>
+                            <option value="'majorTriad'">Major Triad</option>
+                            <option value="'minorTriad'">Minor Triad</option>
+                            <option value="'ionian'">Ionian</option>
+                            <option value="'dorian'">Dorian</option>
+                            <option value="'phrygian'">Phrygian</option>
+                            <option value="'lydian'">Lydian</option>
+                            <option value="'mixolydian'">Mixolydian</option>
+                            <option value="'aeolian'">Aeolian</option>
+                            <option value="'locrian'">Locrian</option>
+                        </select>
+                        
+                        <button type="button" onclick="showScale(
+                            buildScaleFromType(
+                                document.getElementById('scaleType').value, document.getElementById('rootNote').value, scaleAccidentals[document.getElementById('rootNote').value]), 
+                                document.getElementById('rootNote').value.toUpperCase() + ' ' + scaleNames[document.getElementById('scaleType').value])">
+                                Show Scale
+                            </button>
+                    </th>
+
+                    <th style="width: 15%;">
+                        <!-- Download as PNG button -->
+                            <button class="downloadbtn" type="button" onclick=" downloadImage('fretboardContainer') ">Download PNG</button>
+                    </th>
                 
-                <button class="downloadbtn" type="button" onclick=" downloadImage('fretboardContainer') ">Download PNG</button>
+                <tr>
+                    <th style="width: 10%;"></th>
+                    <th style="justify-content: center; width: 50%;">
+                        <div class="center">
+                            <label for="scaleNameInput">Scale Name:</label>
+                            <input type="text" id="scaleNameInput" name="scaleNameInput">
+                            <button type="button" onclick=" updateScaleName( document.getElementById('scaleNameInput').value ) ">Update</button>
+                        </div> 
+                    </th>
+                </tr>
+
+            </table>
+        </div>
+
                 
                 
-                <div style="padding-top: 1%; padding-bottom: 1%; padding-left: 29%;">
-                    <label for="scaleNameInput">Scale Name:</label>
-                    <input type="text" id="scaleNameInput" name="scaleNameInput">
-                    <button type="button" onclick=" updateScaleName( document.getElementById('scaleNameInput').value ) ">Update</button>
-                </div> 
+
                 
         </div>
 
