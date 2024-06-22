@@ -108,6 +108,12 @@ const aeolian = minorScale
 // Locrian
 const locrian = [1, 2, 2, 1, 2, 2, 2]
 
+// Sharp Keys
+const sharpKeys = ['g', 'd', 'a', 'e', 'b', 'fs']
+
+// Flat Keys
+const flatKeys = ['f', 'bb', 'eb', 'ab', 'db', 'gb']
+
 // Chromatic Scale
 const chromaticSharpsArray = ['a', 'as', 'b', 'c', 'cs', 'd', 'ds', 'e', 'f', 'fs', 'g', 'gs']
 const chromaticFlatsArray =  ['a', 'bb', 'b', 'c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab']
@@ -492,8 +498,8 @@ function showTriad(scaleNotes, triadName){
 // Constructs the array of scale notes based on the scale's interval formula, it's root note, and the accidentals used in the key.
 function buildScaleFromIntervals(scaleFormula, rootNote, accidental){
     // console.log(scaleFormula)
-    // console.log(rootNote)
-    // console.log(accidental)
+    console.log(rootNote)
+    console.log(accidental)
 
     if (accidental == 'sharp'){
         chromaticScale = chromaticSharpsArray
@@ -524,12 +530,15 @@ Builds a scale from the scale's name, rootnote, and accidental
 */
 function buildScaleFromType(scaleType, rootNote, accidental){
     // console.log(scaleType)
-    // console.log(rootNote)
+    // console.log(rootNote[0])
+
     var chromaticScale = chromaticFlatsArray
 
-    if (rootNote.length > 1 && rootNote[1] == 's'){
+    if ((rootNote.length > 1 && rootNote[1] == 's') || (rootNote.length == 1 && sharpKeys.includes(rootNote))){
+        // console.log('sharp key')
         chromaticScale = chromaticSharpsArray
     }
+
 
 
     const scaleFormula = scaleFormulas[scaleType];
@@ -552,12 +561,12 @@ function buildScaleFromType(scaleType, rootNote, accidental){
     // console.log(homeKey)
 
     accidental = scaleAccidentals[homeKey]
-
+    // console.log(accidental)
     if (accidental == 'sharp'){
-        // chromaticScale = chromaticSharpsArray
+        chromaticScale = chromaticSharpsArray
         var chromaticIndex = chromaticSharpsDict[rootNote]
     } else {
-        // chromaticScale = chromaticFlatsArray 
+        chromaticScale = chromaticFlatsArray 
         var chromaticIndex = chromaticFlatsDict[rootNote]
     }
 
